@@ -8,20 +8,28 @@ grid = [["_","_","_",],
 def checkWin():
 
         if (grid[0][0] == grid[0][1] and grid[0][0] == grid[0][2] and grid[0][0] != "_"):
+            print("Bot Win") if grid[0][0] == "X" else print("Human Win")
             return True
         elif (grid[1][0] == grid[1][1] and grid[1][0] == grid[1][2] and grid[1][0] != "_"):
+            print("Bot Win") if grid[1][0] == "X" else print("Human Win")
             return True
         elif (grid[2][0] == grid[2][1] and grid[2][0] == grid[2][2] and grid[2][0] != "_"):
+            print("Bot Win") if grid[2][0] == "X" else print("Human Win")
             return True
         elif (grid[0][0] == grid[1][0] and grid[0][0] == grid[2][0] and grid[0][0] != "_"):
+            print("Bot Win") if grid[0][0] == "X" else print("Human Win")
             return True
         elif (grid[0][1] == grid[1][1] and grid[0][1] == grid[2][1] and grid[0][1] != "_"):
+            print("Bot Win") if grid[0][1] == "X" else print("Human Win")
             return True
         elif (grid[0][2] == grid[1][2] and grid[0][2] == grid[2][2] and grid[0][2] != "_"):
+            print("Bot Win") if grid[0][2] == "X" else print("Human Win")
             return True
         elif (grid[0][0] == grid[1][1] and grid[0][0] == grid[2][2] and grid[0][0] != "_"):
+            print("Bot Win") if grid[0][0] == "X" else print("Human Win")
             return True
         elif (grid[2][0] == grid[1][1] and grid[2][0] == grid[0][2] and grid[2][0] != "_"):
+            print("Bot Win") if grid[2][0] == "X" else print("Human Win")
             return True
         else:
             return False
@@ -52,6 +60,7 @@ def checkDraw():
         for cell in row:
             if cell == "_":
                 return False
+    print("Draw")
     return True
 
 def turn(x, y, sign):
@@ -64,16 +73,14 @@ def minimax(grid, maximizing):
     if (checkSignWin("X")):
         return 1
     elif(checkSignWin("O")):
-        print("Human")
         return -1
     elif(checkDraw()):
-        print("Draw")
-        return 0
+        return 0    
 
     if(maximizing):
-        bestScore = -2
-        for x in range(2):
-            for y in range(2):
+        bestScore = -200
+        for x in range(3):
+            for y in range(3):
                 if grid[x][y] == "_":
                     grid[x][y] = "X"
                     score = minimax(grid, False)
@@ -82,9 +89,9 @@ def minimax(grid, maximizing):
                         bestScore = score
         return bestScore
     else:
-        bestScore = 2
-        for x in range(2):
-            for y in range(2):
+        bestScore = 200
+        for x in range(3):
+            for y in range(3):
                 if grid[x][y] == "_":
                     grid[x][y] == "O"
                     score = minimax(grid, True)
@@ -95,21 +102,23 @@ def minimax(grid, maximizing):
 
 
 def AI():
-    bestScore = -200
-    bestMove = [0, 0]
-    for x in range(2): 
-        for y in range(2):
+    bestScore = -2
+    bestX = 0
+    bestY = 0
+    for x in range(3):
+        for y in range(3):
             if grid[x][y] == "_":
                 grid[x][y] = "X"
                 score = minimax(grid, False)
                 grid[x][y] = "_"
                 if(score > bestScore):
                     bestScore = score
-                    bestMove = [x, y]
-    print(bestMove[0], bestMove[1])
-    turn(bestMove[0], bestMove[1], "X")
+                    bestX = x
+                    bestY = y
+    print(bestX, bestY)
+    turn(bestX, bestY, "X")
 
-while not checkWin():
+while not checkWin() and not checkDraw():
     x = int(input("Enter X value: "))
     y = int(input("Enter Y value: "))
     turn(x, y, "O")
